@@ -1,0 +1,43 @@
+{
+  "name": "Optimized Development Environment",
+  
+  // Use a prebuilt base image to eliminate local Dockerfile compilation
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.11-bullseye",
+  
+  // Install supporting tools through cached features
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest"
+    }
+  },
+
+  // Heavy dependency installation runs during the background prebuild phase
+  "updateContentCommand": "pip install -r requirements.txt && npm install",
+  
+  // Lightweight commands that run only when your session starts up
+  "postCreateCommand": "echo 'Codespace ready!'",
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.powershell"
+      ]
+    }
+  },
+
+  "portsAttributes": {
+    "3000": {
+      "label": "Web Interface",
+      "onAutoForward": "notify"
+    }
+  }
+}
